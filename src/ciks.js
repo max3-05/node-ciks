@@ -30,17 +30,19 @@ exports.populate = function(alias, options, promise) {
     }
 
     if (promises[alias][key].id == id) {
-        sources[alias](options, promises[alias][key]);
+        sources[alias].producer(options, promises[alias][key]);
     }
 
     promises[alias][key].promise.then(function(data) {
-        storage.store(alias, options, data);
+        var ttl = sources[alias].ttlProducer(options);
+        storage.store(alias, options, data, ttl);
         promise.resolve(data);
     });
 };
 
-exports.register = function(alias, callback) {
-    sources[alias] = callback;
+exports.register = function(alias, callback, ttlCallback) {
+
+    sources[alias] = {"producer": callback, "ttlProducer": ttlCallback || function(options) { return 30 * 60 * 100; }};
     promises[alias] = [];
 };
 

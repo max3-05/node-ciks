@@ -1,0 +1,29 @@
+{
+  "name": "mongodb-ciks",
+  "version": "0.1.0",
+  "description": "Mongodb storage for CIKS cache implementation",
+  "main": "mongodb.js",
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/max3-05/node-ciks"
+  },
+  "keywords": [
+    "cache",
+    "caching"
+  ],
+  "author": "Maksym Rykin <max.rykin@gmail.com> (http://maxrykin.com)",
+  "license": "Apache 2.0",
+  "bugs": {
+    "url": "https://github.com/max3-05/node-ciks/issues"
+  },
+  "homepage": "https://github.com/max3-05/node-ciks",
+  "dependencies": {
+    "mongodb": "*",
+    "uuid": "*"
+  },
+  "devDependencies": {
+    "promises-aplus-tests": "*"
+  }
+}
