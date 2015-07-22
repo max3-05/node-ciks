@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "dependencies": {
     "node-ciks": "*",
-    "mongodb-ciks": "*"
+    "mongodb-ciks": "*",
+    "mongodb": "~2.0"
   }
 }
