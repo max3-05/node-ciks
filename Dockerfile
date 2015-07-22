@@ -9,6 +9,5 @@ RUN npm set init.author.url "http://maxrykin.com/"
 
 WORKDIR /opt/node/ciks/
 RUN npm install
-RUN npm publish --tag alpha
 
 CMD ["/bin/bash"]
