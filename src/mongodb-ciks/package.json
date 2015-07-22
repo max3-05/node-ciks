@@ -1,6 +1,6 @@
 {
   "name": "mongodb-ciks",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Mongodb storage for CIKS cache implementation",
   "main": "mongodb.js",
   "scripts": {
