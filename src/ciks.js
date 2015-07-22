@@ -41,7 +41,6 @@ exports.populate = function(alias, options, promise) {
 };
 
 exports.register = function(alias, callback, ttlCallback) {
-
     sources[alias] = {"producer": callback, "ttlProducer": ttlCallback || function(options) { return 30 * 60 * 100; }};
     promises[alias] = [];
 };

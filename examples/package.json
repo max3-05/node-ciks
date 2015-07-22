@@ -1,0 +1,8 @@
+{
+  "name": "node-ciks-examples",
+  "version": "0.0.1",
+  "dependencies": {
+    "node-ciks": "*",
+    "mongodb-ciks": "*"
+  }
+}
