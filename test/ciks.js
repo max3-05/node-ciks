@@ -3,19 +3,27 @@ var sinon = require('sinon');
 var defer = require('node-promise').defer;
 
 
-var stubStore = function() {
-    var storage = require('../src/mongodb-ciks/mongodb.js');
+var stubCalls = function(object, functionName, callback) {
+    this.calls = 0;
+    this.args = [];
+    this.object = object;
+    this.functionName = functionName;
 
-    sinon.stub(storage, 'store');
-    sinon.stub(storage, 'get');
-    sinon.stub(storage, 'clear');
+    var self = this;
 
-    return storage;
+    sinon.stub(object, functionName, function() {
+        self.calls++;
+        self.args.push(arguments);
+        callback.apply(this, arguments);
+    });
+
+    this.restore = function() {
+        this.object[this.functionName].restore();
+    };
 };
 
 var producer = function(max, promise) {
     var result = Math.random() * max;
-    console.log(result);
     promise.resolve(result)
 };
 
@@ -36,41 +44,31 @@ describe('Caching library', function() {
     it('Get from empty cache', function(done) {
         var cache = require('../src/ciks');
         var storage = require('../src/mongodb-ciks/mongodb.js');
-        var options = 10;
-        var d = defer();
-        var p;
+        cache.storage(storage);
 
         sinon.stub(storage, 'clear');
 
         var populateSpy = sinon.spy(cache, "populate");
-
-        var getStubCallsCount = 0;
-        var getStubCallsParameters = [];
-
-        sinon.stub(storage, 'get', function(alias, options, promise) {
-            getStubCallsCount++;
-            getStubCallsParameters.push([alias,options,promise]);
-            promise.resolve(null);});
-
-        var storeStubCallsCount = 0;
-        var storeStubCallsParameters = [];
-
-        sinon.stub(storage, 'store', function(alias, options, data, ttl) {
-            storeStubCallsCount++;
-            storeStubCallsParameters.push([alias,options,data,ttl]);
-        });
-
         var producerSpy = sinon.spy(producer);
 
-        cache.storage(storage);
+        var storageGetStub = new stubCalls(storage, 'get', function(alias, options, promise) {
+            promise.resolve(null);
+        });
+
+        var storageStoreStub = new stubCalls(storage, 'store', function(alias, options, data, ttl) {});
+
+
         var alias = '#get.producer';
         cache.register(alias, producerSpy, ttlProducer);
 
+        var options = 10;
+        var d = defer();
+
         d.promise.then(function(data) {
             chai.assert.isTrue(data <= options, 'Checking returned value.');
-            chai.assert.equal(getStubCallsCount, 1, 'Storage store function should be called ONCE!');
-            chai.assert.equal(getStubCallsParameters[0][0], alias, 'Storage get should be called with defined alias');
-            chai.assert.equal(getStubCallsParameters[0][1], options, 'Storage get should be called with defined options');
+            chai.assert.equal(storageGetStub.calls, 1, 'Storage store function should be called ONCE!');
+            chai.assert.equal(storageGetStub.args[0][0], alias, 'Storage get should be called with defined alias');
+            chai.assert.equal(storageGetStub.args[0][1], options, 'Storage get should be called with defined options');
 
             //chai.assert.isTrue(producerSpy.called, 'Producer should be called.');
             chai.assert.equal(producerSpy.callCount, 1, 'Producer should be called ONCE!');
@@ -78,12 +76,16 @@ describe('Caching library', function() {
             //chai.assert.isTrue(populateSpy.called, 'Populate function should be called.');
             chai.assert.equal(populateSpy.callCount, 1, 'Populate function should be called ONCE!');
 
-            chai.assert.equal(storeStubCallsCount, 1, 'Storage store function should be called ONCE!');
+            chai.assert.equal(storageStoreStub.calls, 1, 'Storage store function should be called ONCE!');
 
-            chai.assert.equal(storeStubCallsParameters[0][0], alias, 'Alias should be the same when store a cache value');
-            chai.assert.equal(storeStubCallsParameters[0][1], options, 'Options should be the same when store a cache value');
-            chai.assert.equal(storeStubCallsParameters[0][2], data, 'Data should be the same when store a cache value');
-            chai.assert.equal(storeStubCallsParameters[0][3], ttlProducer(options), 'TTL should be the same when store a cache value');
+            chai.assert.equal(storageStoreStub.args[0][0], alias, 'Alias should be the same when store a cache value');
+            chai.assert.equal(storageStoreStub.args[0][1], options, 'Options should be the same when store a cache value');
+            chai.assert.equal(storageStoreStub.args[0][2], data, 'Data should be the same when store a cache value');
+            chai.assert.equal(storageStoreStub.args[0][3], ttlProducer(options), 'TTL should be the same when store a cache value');
+
+            storageGetStub.restore();
+            storageStoreStub.restore();
+            populateSpy.restore();
 
             done();
         }, function(error) {
@@ -91,5 +93,13 @@ describe('Caching library', function() {
         });
 
         cache.get(alias, options, d);
+    });
+
+    it('Get from populated cache', function(done) {
+        done();
+    });
+
+    it('Concurrent cache population', function(done) {
+        done();
     });
 });
