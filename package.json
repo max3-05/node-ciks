@@ -4,8 +4,8 @@
   "description": "Implementation of cache library",
   "main": "src/ciks.js",
   "scripts": {
-    "test": "promises-aplus-tests tests/adapter",
-    "build": "browserify ./lib/index.js > promises.browser.js && echo '0a\n\n//\n// Promises/A+ Polyfill (https://www.github.com/UmbraEngineering/promise)\n//\n// MIT Licensed\n//\n\n.\nw' | ed promises.browser.js"
+    "test": "mocha test",
+    "prepublish": "mocha test"
   },
   "repository": {
     "type": "git",
@@ -16,7 +16,7 @@
     "caching"
   ],
   "author": "Maksym Rykin <max.rykin@gmail.com> (http://maxrykin.com)",
-  "license": "Apache 2.0",
+  "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/max3-05/node-ciks/issues"
   },
@@ -26,6 +26,8 @@
     "uuid": "*"
   },
   "devDependencies": {
-    "promises-aplus-tests": "*"
+      "sinon": "*",
+      "mocha": "*",
+      "chai": "*"
   }
 }

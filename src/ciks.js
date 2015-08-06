@@ -7,6 +7,8 @@ var promises = [];
 
 var sources = [];
 
+exports.clearPeriod = 1000 * 60;
+
 exports.get = function(alias, options, promise) {
     var d = defer();
     d.promise.then(function(data) {
@@ -47,5 +49,5 @@ exports.register = function(alias, callback, ttlCallback) {
 
 exports.storage = function(store) {
     storage = store;
-    setInterval(function() {storage.clear();}, 1000 * 60);
+    setInterval(function() {storage.clear();}, exports.clearPeriod);
 };

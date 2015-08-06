@@ -1,0 +1,4 @@
+ciks:
+  build: .
+  environment:
+    - task=test

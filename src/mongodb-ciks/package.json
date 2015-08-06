@@ -4,6 +4,7 @@
   "description": "Mongodb storage for CIKS cache implementation",
   "main": "mongodb.js",
   "scripts": {
+    "test": "mocha test"
   },
   "repository": {
     "type": "git",
@@ -24,6 +25,8 @@
     "uuid": "*"
   },
   "devDependencies": {
-    "promises-aplus-tests": "*"
+    "sinon": "*",
+    "mocha": "*",
+    "chai": "*"
   }
 }
