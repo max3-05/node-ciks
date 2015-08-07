@@ -36,19 +36,24 @@ exports.cache = function() {
 
         if (self.promises[alias][key].id == id) {
             self.sources[alias].producer(options, self.promises[alias][key]);
+
+            self.promises[alias][key].promise.then(function (data) {
+                var ttl = self.sources[alias].ttlProducer(options);
+                self.storage.store(alias, options, data, ttl);
+                promise.resolve(data);
+            });
+        } else {
+            self.promises[alias][key].promise.then(function (data) {
+                promise.resolve(data);
+            });
         }
 
-        self.promises[alias][key].promise.then(function (data) {
-            var ttl = self.sources[alias].ttlProducer(options);
-            self.storage.store(alias, options, data, ttl);
-            promise.resolve(data);
-        });
     };
 
     this.register = function (alias, callback, ttlCallback) {
         self.sources[alias] = {
-            "producer": callback, "ttlProducer": ttlCallback || function (options) {
-                return 30 * 60 * 100;
+            "producer": callback, "ttlProducer": ttlCallback || function () {
+                return Infinity;
             }
         };
         self.promises[alias] = [];
@@ -56,8 +61,5 @@ exports.cache = function() {
 
     this.storage = function (store) {
         self.storage = store;
-        setInterval(function () {
-            self.storage.clear();
-        }, self.clearPeriod);
     };
 };
