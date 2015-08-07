@@ -2,3 +2,5 @@ ciks:
   build: .
   environment:
     - task=test
+  volumes:
+    - ./docs/coverage/:/opt/node/ciks/coverage

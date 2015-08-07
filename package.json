@@ -28,6 +28,7 @@
   "devDependencies": {
       "sinon": "*",
       "mocha": "*",
-      "chai": "*"
+      "chai": "*",
+      "istanbul": "*"
   }
 }
