@@ -4,7 +4,7 @@ APPDIR = /opt/node/ciks
 
 test:
 	@echo "Testing"
-	cd $(APPDIR); node_modules/istanbul/lib/cli.js cover node_modules/mocha/bin/_mocha
+	cd $(APPDIR); node_modules/istanbul/lib/cli.js cover node_modules/mocha/bin/_mocha -x mongodb-ciks
 
 deploy: test deploy_ciks deploy_mongodb
 	@echo "Deploying..."
