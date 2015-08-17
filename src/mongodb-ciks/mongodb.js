@@ -39,6 +39,7 @@ exports.storage = function() {
 
     this.clear = function () {
         var self = this;
+        var date = new Date().getTime();
         this.dbcache.listCollections().toArray(function (err, result) {
             if (err) {
                 console.log(err);
@@ -46,7 +47,7 @@ exports.storage = function() {
             }
 
             for (var i = 0; i < result.length; i++) {
-                self.dbcache.collection(result[i].name).remove({expired_in: {$lte: new Date()}});
+                self.dbcache.collection(result[i].name).remove({expired_in: {$lte: new Date() - created_at}});
             }
         });
     };

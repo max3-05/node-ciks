@@ -6,7 +6,7 @@ test:
 	@echo "Testing"
 	cd $(APPDIR); node_modules/istanbul/lib/cli.js cover node_modules/mocha/bin/_mocha -x mongodb-ciks
 
-deploy: test deploy_ciks deploy_mongodb
+deploy: test deploy_ciks deploy_mongodb memory
 	@echo "Deploying..."
 
 deploy_ciks:
@@ -18,3 +18,7 @@ deploy_mongodb:
 	cp $(APPDIR)/.npmrc $(APPDIR)/mongodb-ciks/.npmrc
 	cd $(APPDIR)/mongodb-ciks; npm publish
 
+deploy_memory:
+	@echo "Deploying In-memory storage for CIKS"
+	cp $(APPDIR)/.npmrc $(APPDIR)/memory-ciks/.npmrc
+	cd $(APPDIR)/memory-ciks; npm publish

@@ -2,8 +2,7 @@ var chai = require('chai');
 var sinon = require('sinon');
 var defer = require('node-promise').defer;
 var ciks = require('../src/ciks').cache;
-var mdbstorage = require('../src/mongodb-ciks/mongodb.js').storage;
-
+var mstorage = require('../src/memory-ciks/memory.js').storage;
 
 var stubCalls = function(object, functionName, callback) {
     this.calls = 0;
@@ -42,10 +41,10 @@ var ttlProducer = function(options) {
     }
 };
 
-describe('Caching library', function() {
+describe('Caching library tests', function() {
     it('Get from empty cache', function(done) {
         var cache = new ciks();
-        var storage = new mdbstorage();
+        var storage = new mstorage();
         cache.storage(storage);
 
         sinon.stub(storage, 'clear');
@@ -99,7 +98,7 @@ describe('Caching library', function() {
 
     it('Check default ttl producer', function(done) {
         var cache = new ciks();
-        var storage = new mdbstorage();
+        var storage = new mstorage();
         cache.storage(storage);
 
         sinon.stub(storage, 'clear');
@@ -153,7 +152,7 @@ describe('Caching library', function() {
 
     it('Get from populated cache', function(done) {
         var cache = new ciks();
-        var storage = new mdbstorage();
+        var storage = new mstorage();
         var created_at = new Date();
 
         var storageCachedValue = {
@@ -211,7 +210,7 @@ describe('Caching library', function() {
 
     it('Get from expired cache', function(done) {
         var cache = new ciks();
-        var storage = new mdbstorage();
+        var storage = new mstorage();
         var created_at = new Date();
 
         var storageCachedValue = {
@@ -268,7 +267,7 @@ describe('Caching library', function() {
         this.timeout(15000);
 
         var cache = new ciks();
-        var storage = new mdbstorage();
+        var storage = new mstorage();
         cache.storage(storage);
 
         sinon.stub(storage, 'clear');
