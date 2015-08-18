@@ -1,9 +1,10 @@
 {
   "name": "mongodb-ciks",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Mongodb storage for CIKS cache implementation",
   "main": "mongodb.js",
   "scripts": {
+    "test": "mocha test"
   },
   "repository": {
     "type": "git",
@@ -24,6 +25,8 @@
     "uuid": "*"
   },
   "devDependencies": {
-    "promises-aplus-tests": "*"
+    "sinon": "*",
+    "mocha": "*",
+    "chai": "*"
   }
 }

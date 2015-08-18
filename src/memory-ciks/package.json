@@ -1,11 +1,9 @@
 {
-  "name": "node-ciks",
+  "name": "memory-ciks",
   "version": "2.0.0",
-  "description": "Implementation of cache library",
-  "main": "src/ciks.js",
+  "description": "Memory storage for CIKS cache implementation",
+  "main": "memory.js",
   "scripts": {
-    "test": "mocha test",
-    "prepublish": "mocha test"
   },
   "repository": {
     "type": "git",
@@ -16,7 +14,7 @@
     "caching"
   ],
   "author": "Maksym Rykin <max.rykin@gmail.com> (http://maxrykin.com)",
-  "license": "Apache-2.0",
+  "license": "Apache 2.0",
   "bugs": {
     "url": "https://github.com/max3-05/node-ciks/issues"
   },
@@ -26,9 +24,6 @@
     "uuid": "*"
   },
   "devDependencies": {
-      "sinon": "*",
-      "mocha": "*",
-      "chai": "*",
-      "istanbul": "*"
+    "promises-aplus-tests": "*"
   }
 }

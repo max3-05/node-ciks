@@ -3,14 +3,12 @@
 ## Install
 If you want to use In-Memory storage you may install the package by following:
 ```bash
-$ npm install mongodb-ciks
+$ npm install memory-ciks
 ```
 
 ## Functions
 ### storage.init(connection)
 Initializes storage object.
-Params:
-- connection — MongoDB connection retrieved by ```mongo.connect```
 
 ### storage.store(alias, options, data, ttl)
 Stores calculated data to cache.
@@ -27,4 +25,4 @@ Params:
 - options — options passed to the producer function;
 
 ### storage.clear()
-Clears all expired cache in the storage.
+Clears all expired caches in the storage.
