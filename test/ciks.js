@@ -343,4 +343,23 @@ describe('Caching library tests', function() {
         cache.get(alias, options, d);
         cache.get(alias, options, v);
     });
+
+    it('Check storage clearance', function(done) {
+        var cache = new ciks();
+        var store = new mstorage();
+        cache.storage(store);
+
+        var clear =  new stubCalls(store, 'clear', function() {
+            return;
+        });
+
+        var alias = '#get.producer';
+        cache.register(alias, producer, ttlProducer);
+
+        /// TODO: Add checkers for [storage.clear] function calls
+
+        var nStore = new mstorage();
+        cache.storage(nStore);
+        done();
+    });
 });

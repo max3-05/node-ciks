@@ -2,7 +2,7 @@ var defer = require("node-promise").defer;
 var uuid  = require('uuid');
 
 exports.cache = function() {
-    this.storage = null;
+    this.store = null;
 
     this.promises = [];
 
@@ -22,7 +22,7 @@ exports.cache = function() {
             }
         });
 
-        self.storage.get(alias, options, d);
+        self.store.get(alias, options, d);
     };
 
     this.populate = function (alias, options, promise) {
@@ -39,7 +39,7 @@ exports.cache = function() {
 
             self.promises[alias][key].promise.then(function (data) {
                 var ttl = self.sources[alias].ttlProducer(options);
-                self.storage.store(alias, options, data, ttl);
+                self.store.store(alias, options, data, ttl);
                 promise.resolve(data);
             });
         } else {
@@ -60,6 +60,11 @@ exports.cache = function() {
     };
 
     this.storage = function (store) {
-        self.storage = store;
+        if (this.clearIntervalId) {
+            clearInterval(this.clearIntervalId)
+        }
+
+        self.store = store;
+        this.clearIntervalId = setInterval(store.clear, this.clearPeriod);
     };
 };
