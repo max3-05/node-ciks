@@ -1,8 +1,11 @@
+
 var mongo = require('mongodb');
 var defer = require("node-promise").defer;
 
-var kache = require('node-ciks');
-var storage = require('mongodb-ciks');
+var cache = require('node-ciks').cache;
+var kache = new cache();
+var mdbstorage = require('mongodb').storage;
+var storage = new mdbstorage();
 
 var producer = function(options, promise) {
     /// Some long data calculation.
