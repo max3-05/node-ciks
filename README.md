@@ -26,7 +26,7 @@ For more use detailed cases please refer to [example](https://github.com/max3-05
 ### ciks.storage(storage)
 Sets cache storage.
 Params:
-- storage — Instance of one of storage class. Currently only [MongoDB](https://github.com/max3-05/node-ciks/tree/master/src/mongodb-ciks) storage supported.
+- storage — Instance of one of storage class. Currently only [MongoDB](https://github.com/max3-05/node-ciks/tree/master/src/mongodb-ciks) and [In-Memory](https://github.com/max3-05/node-ciks/tree/master/src/memory-ciks) storage supported.
 
 ### ciks.register(alias, producer, ttlProducer)
 Registers new data producer function.
